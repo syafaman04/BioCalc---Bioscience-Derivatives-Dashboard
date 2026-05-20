@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-900">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioCalc: Derivatives in Malaysian Food Security</title>
+    
+    <!-- Tailwind CSS for modern premium styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js for interactive graphical visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- KaTeX for beautiful, fast mathematical formula rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+    <!-- FontAwesome for crisp modern icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Smooth transitions for interactive elements */
+        .transition-all-300 {
+            transition: all 0.3s ease-in-out;
+        }
+        /* Custom scrollbar for data cards */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #10b981;
+        }
+    </style>
+</head>
+<body class="h-full text-slate-100 font-sans antialiased selection:bg-emerald-500 selection:text-white">
+
+    <!-- Main App Container -->
+    <div class="min-h-screen flex flex-col justify-between">
+        
+        <!-- Header -->
+        <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-4 py-4 sm:px-8">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="bg-emerald-500 text-slate-950 p-2.5 rounded-xl shadow-lg shadow-emerald-500/20">
+                        <i class="fa-solid fa-calculator text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                            BioCalc <span class="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/20 font-medium">Undergrad Bioscience</span>
+                        </h1>
+                        <p class="text-xs text-slate-400">Applications of Derivatives $f'(x)$ in Malaysian Sustainable Food Security</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 text-xs text-slate-400 bg-slate-800/50 px-3 py-1.5 rounded-lg border border-slate-700/50">
+                    <i class="fa-solid fa-graduation-cap text-emerald-400"></i>
+                    <span>Specialization: <strong>SFM (Food Security)</strong></span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Dashboard -->
+        <main class="max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex-grow grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Left Side: Controls & Calculus Formulas (5 Cols) -->
+            <div class="lg:col-span-5 flex flex-col gap-6">
+                
+                <!-- Scenario Selector Card -->
+                <div class="bg-slate-800/80 border border-slate-700/50 rounded-2xl p-5 shadow-xl flex flex-col gap-4">
+                    <div class="flex items-center gap-2 text-emerald-400 font-semibold text-sm uppercase tracking-wider">
+                        <i class="fa-solid fa-leaf"></i>
+                        <span>Select Food Security Scenario</span>
+                    </div>
+                    <div class="grid grid-cols-1 gap-2.5" id="scenario-selector">
+                        <!-- Scenarios generated dynamically via JS -->
+                    </div>
+                </div>
+
+                <!-- Live Mathematical Model Card -->
+                <div class="bg-slate-800/80 border border-slate-700/50 rounded-2xl p-5 shadow-xl flex flex-col gap-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2 text-emerald-400 font-semibold text-sm uppercase tracking-wider">
+                            <i class="fa-solid fa-square-root-variable"></i>
+                            <span>Mathematical Modeling</span>
+                        </div>
+                        <span class="text-[10px] bg-slate-700 text-slate-300 px-2 py-0.5 rounded-md font-mono">Logistic Growth Model</span>
+                    </div>
+
+                    <div class="bg-slate-900/60 rounded-xl p-4 border border-slate-800/50 flex flex-col gap-3">
+                        <div class="text-xs text-slate-400">General Growth Function $f(t)$ :</div>
+                        <div class="text-center py-2 text-lg font-mono text-white" id="general-formula-fx">
+                            $$f(t) = \frac{L}{1 + e^{-k(t-t_0)}}$$
+                        </div>
+                        <div class="h-[1px] bg-slate-800"></div>
+                        <div class="text-xs text-slate-400">Instantaneous Growth Rate (First Derivative $f'(t)$) :</div>
+                        <div class="text-center py-2 text-lg font-mono text-emerald-400" id="general-formula-dfx">
+                            $$f'(t) = \frac{L \cdot k \cdot e^{-k(t-t_0)}}{(1 + e^{-k(t-t_0)})^2}$$
+                        </div>
+                    </div>
+
+                    <!-- Live Parameters Calculator -->
+                    <div class="bg-emerald-950/20 border border-emerald-900/30 rounded-xl p-4 flex flex-col gap-3">
+                        <span class="text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-gears"></i> Live Calculus Evaluator
+                        </span>
+                        
+                        <!-- Manual Time Slider -->
+                        <div class="flex flex-col gap-1.5">
+                            <div class="flex justify-between items-center text-xs text-slate-300">
+                                <span id="slider-label">Current Day ($t$):</span>
+                                <span class="font-mono text-emerald-400 font-bold text-sm" id="slider-val-display">50 days</span>
+                            </div>
+                            <input type="range" id="time-slider" min="0" max="100" value="50" class="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500 focus:outline-none">
+                        </div>
+
+                        <!-- Substitution equations with values plugged in -->
+                        <div class="text-[11px] font-mono text-slate-300 flex flex-col gap-2 mt-2 bg-slate-900/40 p-2.5 rounded-lg border border-emerald-900/20">
+                            <div>
+                                <span class="text-slate-400">Evaluated $f(t)$ at <span class="current-t-val">50</span>:</span>
+                                <div id="live-eval-fx" class="text-white mt-1"></div>
+                            </div>
+                            <div class="border-t border-slate-800/60 my-1"></div>
+                            <div>
+                                <span class="text-emerald-400 font-semibold">Evaluated Derivative $f'(t)$ at <span class="current-t-val">50</span>:</span>
+                                <div id="live-eval-dfx" class="text-emerald-300 mt-1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Interactive Plot & Layman Insights (7 Cols) -->
+            <div class="lg:col-span-7 flex flex-col gap-6">
+                
+                <!-- Main Plot Card -->
+                <div class="bg-slate-800/80 border border-slate-700/50 rounded-2xl p-5 shadow-xl flex flex-col gap-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                        <div>
+                            <h2 class="text-lg font-bold text-white flex items-center gap-2" id="scenario-title">
+                                Paddy Crop Development
+                            </h2>
+                            <p class="text-xs text-slate-400" id="scenario-description">
+                                Analyzing biomass growth kinetics of local high-yield MR219 paddy seeds.
+                            </p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-1 rounded-md font-semibold inline-block">
+                                <i class="fa-solid fa-hand-pointer mr-1"></i> Click Graph to Evaluate
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Chart Workspace -->
+                    <div class="relative w-full h-[280px] sm:h-[350px] bg-slate-900/50 rounded-xl p-2 border border-slate-800 flex items-center justify-center">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+
+                    <!-- Legend / Mini Statistics Dashboard -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-800 text-center">
+                            <span class="text-[10px] text-slate-400 uppercase tracking-wider block">Cumulative Value $f(t)$</span>
+                            <span class="text-lg font-extrabold text-white mt-1 block font-mono" id="stat-fval">--</span>
+                            <span class="text-[9px] text-slate-400" id="stat-fval-unit">cm (Height)</span>
+                        </div>
+                        <div class="bg-emerald-950/40 p-3 rounded-xl border border-emerald-900/40 text-center">
+                            <span class="text-[10px] text-emerald-400 uppercase tracking-wider block font-semibold">Rate of Change $f'(t)$</span>
+                            <span class="text-lg font-extrabold text-emerald-300 mt-1 block font-mono" id="stat-dfval">--</span>
+                            <span class="text-[9px] text-slate-300" id="stat-dfval-unit">cm/day</span>
+                        </div>
+                        <div class="col-span-2 sm:col-span-1 bg-slate-900/60 p-3 rounded-xl border border-slate-800 text-center flex flex-col justify-center items-center">
+                            <span class="text-[10px] text-slate-400 uppercase tracking-wider block">Biological Phase</span>
+                            <span class="text-xs font-bold text-emerald-400 mt-1 block px-2 py-0.5 bg-emerald-500/10 rounded border border-emerald-500/20" id="stat-phase">
+                                Vegetative Phase
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Agricultural Insight & Decision Support Card -->
+                <div class="bg-slate-800/80 border border-slate-700/50 rounded-2xl p-5 shadow-xl flex flex-col gap-3">
+                    <div class="flex items-center gap-2 text-amber-400 font-semibold text-sm uppercase tracking-wider">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>Layman Explanation & Smart Farming Insight</span>
+                    </div>
+                    
+                    <div class="bg-slate-900/40 border border-slate-800 rounded-xl p-4 min-h-[100px] flex flex-col justify-center gap-2">
+                        <div class="flex items-center gap-2 text-xs font-bold text-slate-300" id="insight-title-area">
+                            <i class="fa-solid fa-clock-rotate-left text-amber-400"></i>
+                            <span>Select any point on the slider or click on the graph timeline to analyze...</span>
+                        </div>
+                        <p class="text-sm text-slate-300 leading-relaxed" id="insight-text-area">
+                            Calculus forms the backbone of precision agriculture. By observing the derivative, food security researchers can accurately pinpoint when crops are accelerating in growth versus when they plateau. This lets us plan critical fertilizer regimes and determine perfect harvesting schedules.
+                        </p>
+                    </div>
+
+                    <!-- Malaysian Food Security Context footer note inside the card -->
+                    <div class="text-[11px] text-slate-400 bg-emerald-950/10 border border-emerald-900/20 p-3 rounded-lg flex items-start gap-2.5">
+                        <i class="fa-solid fa-seedling text-emerald-500 mt-0.5 shrink-0"></i>
+                        <div>
+                            <strong class="text-slate-300">Sustainable Food Security Strategy:</strong>
+                            <span id="scenario-strategic-policy">To secure rice production under Malaysia's National Agrofood Policy 2.0 (DAN 2.0), optimal nitrogen fertilizer top-dressing must align precisely with the peak growth derivative $f'(t)$, boosting kernel yield while minimizing ecological runoff.</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- Dynamic Reference Panel Section -->
+        <section class="max-w-7xl w-full mx-auto px-4 sm:px-8 mb-6">
+            <div class="bg-slate-800/40 border border-slate-800 rounded-2xl p-5 shadow-inner">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-book-open"></i> Reference Source & Verification Databases (Malaysia)
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-800">
+                        <span class="text-emerald-400 font-semibold block mb-1">Scenario 1 (Paddy Rice MR219):</span>
+                        <p class="text-slate-400 leading-relaxed">
+                            Data modeled after the <span class="text-slate-200 underline font-medium">MARDI Paddy Cultivation Manual</span> & <span class="text-slate-200 underline font-medium">KPKM Agrofood Statistics Database</span> (Ministry of Agriculture & Food Security).
+                        </p>
+                    </div>
+                    <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-800">
+                        <span class="text-emerald-400 font-semibold block mb-1">Scenario 2 (Red Tilapia Aquaculture):</span>
+                        <p class="text-slate-400 leading-relaxed">
+                            Growth rates extracted from the <span class="text-slate-200 underline font-medium">Department of Fisheries (DOF) Malaysia Aquaculture Guidelines</span> on commercial culture systems in Tasik Kenyir.
+                        </p>
+                    </div>
+                    <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-800">
+                        <span class="text-emerald-400 font-semibold block mb-1">Scenario 3 (Oil Palm OER Ripening):</span>
+                        <p class="text-slate-400 leading-relaxed">
+                            Lipid biosythesis kinetics verified by the <span class="text-slate-200 underline font-medium">Malaysian Palm Oil Board (MPOB) Research Portal</span> for Tenera fresh fruit bunch ripeness standards.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-slate-800 bg-slate-950 text-center py-4 px-4 text-xs text-slate-500">
+            <p>© 2026 Derivative Interactive Bioscience Calculator. Tailored for Malaysian Universities Undergraduate Food Security (SFM) Curriculums.</p>
+        </footer>
+
+    </div>
+
+    <!-- Interactive JavaScript Engine -->
+    <script>
+        // Global Data Structures for the 3 Bio-Scenarios
+        const scenarios = {
+            paddy: {
+                id: 'paddy',
+                title: 'MR219 Paddy Growth Curve',
+                desc: 'Optimizing Nitrogen fertilizers for Malaysia\'s high-yield paddy crop in the MADA (Kedah) grain basket.',
+                icon: 'fa-wheat-awn',
+                unit: 'cm (Height)',
+                rateUnit: 'cm/day',
+                tLabel: 'Days after Transplanting (DAT)',
+                maxT: 110,
+                params: { L: 110, k: 0.07, t0: 50 }, // Height limit 110cm, inflection 50 days, k=0.07
+                axisMinY: 0,
+                axisMaxY: 130,
+                formulaTex: 'h(t) = \\frac{110}{1 + e^{-0.07(t-50)}}',
+                derivTex: 'h\'(t) = \\frac{7.7e^{-0.07(t-50)}}{(1 + e^{-0.07(t-50)})^2}',
+                policy: 'To secure domestic self-sufficiency levels (SSL) under the National Agrofood Policy 2.0 (DAN 2.0), precise Nitrogen application must target times of peak derivatives ($f\'(t)$ is maximum), ensuring maximum panicle growth with minimal economic wastage.',
+                phases: [
+                    { min: 0, max: 35, name: 'Rooting / Early Vegetative', color: '#10b981' },
+                    { min: 35, max: 65, name: 'Peak Tillering & Panicle Initiation', color: '#fbbf24' },
+                    { min: 65, max: 90, name: 'Reproductive & Booting', color: '#3b82f6' },
+                    { min: 90, max: 115, name: 'Ripening & Harvest Prep', color: '#f59e0b' }
+                ],
+                getExplanation: function(t, val, dval) {
+                    if (t < 35) {
+                        return {
+                            title: `DAT ${t}: Initial Root & Seedling Stabilization`,
+                            text: `Growth rate is modest (${dval} cm/day). The paddy seedling is focusing carbohydrates downwards to construct its root network in saturated soil. Large scale fertilizer application is highly inefficient at this point. Keep water level shallow at 2-3 cm.`
+                        };
+                    } else if (t >= 35 && t < 65) {
+                        return {
+                            title: `DAT ${t}: Active Tillering - CRITICAL STAGE!`,
+                            text: `The derivative is at or near its maximum peak (${dval} cm/day)! The plant is multiplying its tillers aggressively. This represents the ultimate sweet spot for nitrogen top-dressing (baja penyuburan). High growth derivatives demand instant nutrient availability to maximize grain count per panicle.`
+                        };
+                    } else if (t >= 65 && t < 90) {
+                        return {
+                            title: `DAT ${t}: Reproductive Phase (Panicle Development)`,
+                            text: `Growth rate has begun decelerating (${dval} cm/day) as physical height plateaus. Energetically, the plant is redirecting synthesized sugars from height growth to panicle filling. Switch focus to pest monitoring (brown planthopper) and stable irrigation.`
+                        };
+                    } else {
+                        return {
+                            title: `DAT ${t}: Golden Ripening & Harvesting Stage`,
+                            text: `Derivative has dropped to almost zero (${dval} cm/day). Paddy plant has reached absolute full structural maturity. Grain moisture is dropping; the crop is drying. Drain fields 10-14 days prior to harvest to allow heavy machinery to safely navigate without creating deep soil ruts.`
+                        };
+                    }
+                }
+            },
+            tilapia: {
+                id: 'tilapia',
+                title: 'Red Tilapia Weight Gain Model',
+                desc: 'Monitoring biomass output rate of commercial Red Tilapia (Oreochromis niloticus) in Tasik Kenyir floating cages.',
+                icon: 'fa-fish-fins',
+                unit: 'g (Weight)',
+                rateUnit: 'g/day',
+                tLabel: 'Days of Culture (DoC)',
+                maxT: 240,
+                params: { L: 600, k: 0.035, t0: 120 }, // Max wt 600g, inflection 120 days, k=0.035
+                axisMinY: 0,
+                axisMaxY: 700,
+                formulaTex: 'W(t) = \\frac{600}{1 + e^{-0.035(t-120)}}',
+                derivTex: 'W\'(t) = \\frac{21e^{-0.035(t-120)}}{(1 + e^{-0.035(t-120)})^2}',
+                policy: 'Aquaculture accounts for a vast segment of domestic animal protein. In commercial systems, feed takes up to 70% of operating costs. Tracking the derivative allows farmers to harvest right before the Feed Conversion Ratio (FCR) spikes and growth slows.',
+                phases: [
+                    { min: 0, max: 80, name: 'Fry & Fingerling Stage', color: '#10b981' },
+                    { min: 80, max: 160, name: 'Peak Muscle Growth', color: '#fbbf24' },
+                    { min: 160, max: 200, name: 'Slowing FCR Transition', color: '#3b82f6' },
+                    { min: 200, max: 250, name: 'Market Harvest Readiness', color: '#f59e0b' }
+                ],
+                getExplanation: function(t, val, dval) {
+                    if (t < 80) {
+                        return {
+                            title: `Day ${t}: Post-Stocking Fry Development`,
+                            text: `Though young fish have a high metabolic rate, the absolute weight gain is small (${dval} g/day). They require expensive, high-protein crumble starter feed. Overfeeding at this point will quickly rot the lake bottom and deplete oxygen.`
+                        };
+                    } else if (t >= 80 && t < 160) {
+                        return {
+                            title: `Day ${t}: Exponential Growth Phase`,
+                            text: `Growth rate is at peak performance (${dval} g/day). Tilapia is transforming feed into fillet muscle with absolute efficiency. Maximize feeding rate with premium grower feed. Clean water flows and strong aeration should be strictly maintained.`
+                        };
+                    } else if (t >= 160 && t < 200) {
+                        return {
+                            title: `Day ${t}: Declining Feed Efficiency`,
+                            text: `The rate of weight gain is slowing (${dval} g/day). The fish are getting larger and spend more feed energy on basic metabolism/respiration rather than expanding biomass. Start assessing market demand.`
+                        };
+                    } else {
+                        return {
+                            title: `Day ${t}: Maximum Payload Capacity`,
+                            text: `Derivative is hitting negligible levels (${dval} g/day). Continuing to feed beyond this point generates zero net profit as food is wasted. This is the optimal harvest target (average ${val.toFixed(1)}g) for high market values in urban wet markets.`
+                        };
+                    }
+                }
+            },
+            palm_oil: {
+                id: 'palm_oil',
+                title: 'Palm Oil Content Accumulation',
+                desc: 'Determining the optimal Harvesting Window of oil palm fresh fruit bunches (FFB) based on mesocarp lipid synthesis.',
+                icon: 'fa-oil-well',
+                unit: '% (Oil in Mesocarp)',
+                rateUnit: '%/day',
+                tLabel: 'Days After Anthesis (DAA)',
+                maxT: 180,
+                params: { L: 26, k: 0.15, t0: 140 }, // Max 26% oil, inflection 140 days, k=0.15
+                axisMinY: 0,
+                axisMaxY: 30,
+                formulaTex: 'O(t) = \\frac{26}{1 + e^{-0.15(t-140)}}',
+                derivTex: 'O\'(t) = \\frac{3.9e^{-0.15(t-140)}}{(1 + e^{-0.15(t-140)})^2}',
+                policy: 'Malaysia is a global titan in sustainable palm oil. Maximizing the Oil Extraction Rate (OER) is critical. Harvesting precisely when the accumulation derivative reaches zero ensures optimal lipid yield without producing degraded FFA (Free Fatty Acids) oils.',
+                phases: [
+                    { min: 0, max: 110, name: 'Kernel & Shell Growth', color: '#10b981' },
+                    { min: 110, max: 155, name: 'Peak Lipid Accumulation', color: '#fbbf24' },
+                    { min: 155, max: 170, name: 'Saturating Lipids', color: '#3b82f6' },
+                    { min: 170, max: 190, name: 'Overripe Fruit Drop', color: '#f59e0b' }
+                ],
+                getExplanation: function(t, val, dval) {
+                    if (t < 110) {
+                        return {
+                            title: `Day ${t} (DAA): Mesocarp Formation`,
+                            text: `Oil rate is virtually zero (${dval} %/day). The bunch is currently prioritizing development of hard kernel shells. Harvesting at this stage delivers blank, water-logged mesocarps with zero commercial value at processing mills.`
+                        };
+                    } else if (t >= 110 && t < 155) {
+                        return {
+                            title: `Day ${t} (DAA): Active Lipogenesis (Oil Filling)`,
+                            text: `Oil production is accelerating at its fastest rate (${dval} %/day). The plant actively pipes photosynthetic sucrose into the mesocarp cells, synthesizing fats. Harvesting now would cut short this vital chemical accumulation, resulting in a low OER penalty.`
+                        };
+                    } else if (t >= 155 && t < 170) {
+                        return {
+                            title: `Day ${t} (DAA): Final Plateau Ripeness`,
+                            text: `The rate of lipid synthesis is starting to flatten (${dval} %/day) as oil content reaches saturation (${val.toFixed(1)}%). Look for the classic field indicator: the first 5-10 ripe fruits detaching from the bunch and falling onto the ground.`
+                        };
+                    } else {
+                        return {
+                            title: `Day ${t} (DAA): Over-Ripeness & Acid Degradation`,
+                            text: `Derivative is completely flat (${dval} %/day). Delaying harvest past this day triggers biological decay. Cell walls break down, releasing lipase enzymes which split triglycerides into Free Fatty Acids (FFA). This greatly degrades Crude Palm Oil quality.`
+                        };
+                    }
+                }
+            }
+        };
+
+        let currentScenario = scenarios.paddy;
+        let selectedT = 50;
+        let chartInstance = null;
+
+        // Initialize App on DOM Load
+        window.onload = function() {
+            generateScenarioUI();
+            selectScenario('paddy');
+            initEventListeners();
+        };
+
+        // Generate Scenario Selectors in DOM
+        function generateScenarioUI() {
+            const container = document.getElementById('scenario-selector');
+            container.innerHTML = '';
+            
+            Object.values(scenarios).forEach(sc => {
+                const button = document.createElement('button');
+                button.className = `scenario-btn w-full flex items-center gap-3 p-3.5 rounded-xl border text-left transition-all-300 hover:bg-slate-700/40`;
+                button.id = `btn-${sc.id}`;
+                button.setAttribute('onclick', `selectScenario('${sc.id}')`);
+                button.innerHTML = `
+                    <div class="sc-icon-box bg-slate-700 text-slate-300 p-2.5 rounded-lg transition-all-300">
+                        <i class="fa-solid ${sc.icon} text-lg"></i>
+                    </div>
+                    <div class="flex-grow">
+                        <span class="block text-sm font-bold text-white transition-all-300 sc-title">${sc.title}</span>
+                        <span class="block text-[11px] text-slate-400 mt-0.5 line-clamp-1">${sc.desc}</span>
+                    </div>
+                `;
+                container.appendChild(button);
+            });
+        }
+
+        // Change Active Scenario
+        function selectScenario(id) {
+            currentScenario = scenarios[id];
+            
+            // Highlight Selected Button UI
+            document.querySelectorAll('.scenario-btn').forEach(btn => {
+                btn.className = "scenario-btn w-full flex items-center gap-3 p-3.5 rounded-xl border text-left transition-all-300 hover:bg-slate-700/40 border-slate-700/50 bg-slate-900/40";
+                btn.querySelector('.sc-icon-box').className = "sc-icon-box bg-slate-800 text-slate-400 p-2.5 rounded-lg transition-all-300";
+            });
+            const activeBtn = document.getElementById(`btn-${id}`);
+            activeBtn.className = "scenario-btn w-full flex items-center gap-3 p-3.5 rounded-xl border text-left transition-all-300 border-emerald-500/40 bg-emerald-500/10 shadow-lg shadow-emerald-500/5";
+            activeBtn.querySelector('.sc-icon-box').className = "sc-icon-box bg-emerald-500 text-slate-950 p-2.5 rounded-lg transition-all-300 shadow-md";
+
+            // Update Metadata Text
+            document.getElementById('scenario-title').innerText = currentScenario.title;
+            document.getElementById('scenario-description').innerText = currentScenario.desc;
+            document.getElementById('scenario-strategic-policy').innerHTML = currentScenario.policy;
+
+            // Re-configure Slider Boundaries
+            const slider = document.getElementById('time-slider');
+            slider.max = currentScenario.maxT;
+            selectedT = Math.round(currentScenario.maxT / 2);
+            slider.value = selectedT;
+            document.getElementById('slider-label').innerText = `Current Time (${currentScenario.tLabel}):`;
+
+            // Reset LaTeX formulas with KaTeX
+            katex.render(`f(t) = \\frac{L}{1 + e^{-k(t-t_0)}}`, document.getElementById('general-formula-fx'), { displayMode: true });
+            katex.render(`f'(t) = \\frac{L \\cdot k \\cdot e^{-k(t-t_0)}}{(1 + e^{-k(t-t_0)})^2}`, document.getElementById('general-formula-dfx'), { displayMode: true });
+
+            // Redraw Chart
+            renderChart();
+            updateCalculations();
+        }
+
+        // Setup DOM Event Listeners
+        function initEventListeners() {
+            const slider = document.getElementById('time-slider');
+            slider.addEventListener('input', function(e) {
+                selectedT = parseInt(e.target.value);
+                updateCalculations();
+                updateChartSelection();
+            });
+        }
+
+        // Perform Analytical Mathematical Computations
+        function calculateValues(t) {
+            const { L, k, t0 } = currentScenario.params;
+            const exponent = -k * (t - t0);
+            const expVal = Math.exp(exponent);
+            const denom = 1 + expVal;
+            const f_t = L / denom;
+            const df_t = (L * k * expVal) / (denom * denom);
+            return { f_t, df_t };
+        }
+
+        // Perform updates on calculation displays, LaTeX boards and layout cards
+        function updateCalculations() {
+            const { f_t, df_t } = calculateValues(selectedT);
+
+            // Update dynamic numbers
+            document.querySelectorAll('.current-t-val').forEach(el => el.innerText = selectedT);
+            document.getElementById('slider-val-display').innerText = `${selectedT} days`;
+
+            document.getElementById('stat-fval').innerText = f_t.toFixed(2);
+            document.getElementById('stat-fval-unit').innerText = currentScenario.unit;
+            document.getElementById('stat-dfval').innerText = df_t.toFixed(3);
+            document.getElementById('stat-dfval-unit').innerText = currentScenario.rateUnit;
+
+            // Update dynamic biological phase classification
+            const currentPhase = currentScenario.phases.find(ph => selectedT >= ph.min && selectedT <= ph.max) || currentScenario.phases[0];
+            const phaseEl = document.getElementById('stat-phase');
+            phaseEl.innerText = currentPhase.name;
+            phaseEl.style.borderColor = currentPhase.color;
+            phaseEl.style.color = currentPhase.color;
+            phaseEl.style.backgroundColor = `${currentPhase.color}15`;
+
+            // Render live substituted LaTeX equations
+            const { L, k, t0 } = currentScenario.params;
+            katex.render(`f(${selectedT}) = \\frac{${L}}{1 + e^{-${k}(${selectedT}-${t0})}} \\approx ${f_t.toFixed(2)}`, document.getElementById('live-eval-fx'));
+            katex.render(`f'(${selectedT}) = \\frac{${L} \\cdot ${k} \\cdot e^{-${k}(${selectedT}-${t0})}}{(1 + e^{-${k}(${selectedT}-${t0})})^2} \\approx ${df_t.toFixed(4)}`, document.getElementById('live-eval-dfx'));
+
+            // Set Layman description based on scenario & phase
+            const explanation = currentScenario.getExplanation(selectedT, f_t, df_t.toFixed(3));
+            document.getElementById('insight-title-area').innerHTML = `
+                <i class="fa-solid fa-seedling text-amber-400"></i>
+                <span class="text-amber-300 font-bold uppercase tracking-wider">${explanation.title}</span>
+            `;
+            document.getElementById('insight-text-area').innerHTML = explanation.text;
+
+            // Render custom math inside dynamic content
+            renderMathInElement(document.getElementById('insight-text-area'));
+        }
+
+        // Render standard line series for Chart.js
+        function renderChart() {
+            const labels = [];
+            const dataF = [];
+            const maxVal = currentScenario.maxT;
+
+            for (let t = 0; t <= maxVal; t++) {
+                labels.push(t);
+                const { f_t } = calculateValues(t);
+                dataF.push(f_t);
+            }
+
+            // Prepare dynamic canvas gradient backgrounds
+            const ctx = document.getElementById('growthChart').getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, 'rgba(16, 185, 129, 0.3)');
+            gradient.addColorStop(1, 'rgba(16, 185, 129, 0.02)');
+
+            // Clean previous instance safely
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: currentScenario.unit,
+                            data: dataF,
+                            borderColor: '#10b981',
+                            borderWidth: 3,
+                            pointRadius: 0,
+                            pointHoverRadius: 0,
+                            fill: true,
+                            backgroundColor: gradient,
+                            tension: 0.1,
+                            z: 1
+                        },
+                        {
+                            label: 'Interactive Tangent',
+                            data: [], // Updated dynamically
+                            borderColor: '#fbbf24',
+                            borderWidth: 2,
+                            borderDash: [6, 4],
+                            pointRadius: 0,
+                            fill: false,
+                            z: 2
+                        },
+                        {
+                            label: 'Evaluated Point',
+                            data: [], // Updated dynamically
+                            borderColor: '#fbbf24',
+                            backgroundColor: '#1e293b',
+                            borderWidth: 2,
+                            pointRadius: 6,
+                            pointHoverRadius: 8,
+                            showLine: false,
+                            z: 3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    onClick: handleChartClick,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: false // Custom interactive panel displays values
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: currentScenario.tLabel,
+                                color: '#94a3b8',
+                                font: { size: 10, weight: 'bold' }
+                            },
+                            grid: {
+                                color: '#334155',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#64748b',
+                                font: { size: 9 }
+                            }
+                        },
+                        y: {
+                            min: currentScenario.axisMinY,
+                            max: currentScenario.axisMaxY,
+                            title: {
+                                display: true,
+                                text: currentScenario.unit,
+                                color: '#94a3b8',
+                                font: { size: 10, weight: 'bold' }
+                            },
+                            grid: {
+                                color: '#334155',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#64748b',
+                                font: { size: 9 }
+                            }
+                        }
+                    }
+                }
+            });
+
+            updateChartSelection();
+        }
+
+        // Handle direct canvas/chart user tap or click event
+        function handleChartClick(event, activeElements) {
+            if (activeElements.length > 0) {
+                const elementIndex = activeElements[0].index;
+                selectedT = elementIndex;
+                
+                // Keep input range synchronized
+                document.getElementById('time-slider').value = selectedT;
+
+                updateCalculations();
+                updateChartSelection();
+            }
+        }
+
+        // Draws the point indicator and tangent line dynamically matching slopes
+        function updateChartSelection() {
+            if (!chartInstance) return;
+
+            const { f_t, df_t } = calculateValues(selectedT);
+
+            // 1. Plot evaluated point coordinate
+            chartInstance.data.datasets[2].data = Array(currentScenario.maxT + 1).fill(null);
+            chartInstance.data.datasets[2].data[selectedT] = f_t;
+
+            // 2. Plot Dynamic Linear Tangent Line (Calculus Slope visualization)
+            // Equation of line: y - y1 = m(x - x1) -> y = m(x - x1) + y1
+            const tangentData = Array(currentScenario.maxT + 1).fill(null);
+            
+            // Build visual tangent boundaries representing local slope limit
+            const widthOffset = Math.round(currentScenario.maxT * 0.15); // limit span of tangent
+            const startT = Math.max(0, selectedT - widthOffset);
+            const endT = Math.min(currentScenario.maxT, selectedT + widthOffset);
+
+            for (let t = startT; t <= endT; t++) {
+                const y_tangent = df_t * (t - selectedT) + f_t;
+                // Only draw tangent within sensible plot bounds
+                if (y_tangent >= currentScenario.axisMinY && y_tangent <= currentScenario.axisMaxY) {
+                    tangentData[t] = y_tangent;
+                }
+            }
+            chartInstance.data.datasets[1].data = tangentData;
+
+            chartInstance.update('none'); // Update smoothly without full animation reset
+        }
+    </script>
+
+</body>
+</html>
